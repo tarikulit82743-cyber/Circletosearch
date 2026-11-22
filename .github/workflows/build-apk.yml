@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Unzip project
+        run: unzip -q CircleSearch.zip
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -18,10 +20,11 @@ jobs:
         with:
           gradle-version: 8.7
       - name: Build APKs
+        working-directory: CircleSearch
         run: gradle assembleDebug assembleRelease --stacktrace
       - uses: actions/upload-artifact@v4
         with:
           name: CircleSearch-apk
           path: |
-            app/build/outputs/apk/debug/*.apk
-            app/build/outputs/apk/release/*.apk
+            CircleSearch/app/build/outputs/apk/debug/*.apk
+            CircleSearch/app/build/outputs/apk/release/*.apk
